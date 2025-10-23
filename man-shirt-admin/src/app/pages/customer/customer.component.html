@@ -1,0 +1,157 @@
+<app-loader></app-loader>
+<div class="container-fluid">
+    <app-page-title title="Khách hàng" [breadcrumbItems]="breadCrumbItems"></app-page-title>
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row mb-2">
+                        <div class="col-sm-4">
+                            <div class="search-box me-2 mb-2 d-inline-block">
+                                <div class="position-relative">
+                                    <input type="text" class="form-control" placeholder="Tìm kiếm..."
+                                        [(ngModel)]="term" />
+                                    <i class="bx bx-search-alt search-icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="text-sm-end">
+                                <button type="button" class="btn btn-success btn-rounded mb-2 me-2"
+                                    (click)="openModal()">
+                                    <i class="mdi mdi-plus me-1"></i> Thêm khách hàng
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table align-middle table-nowrap table-check">
+                            <thead class="table-light">
+                                <tr>
+                                    <th class="align-middle">ID</th>
+                                    <th class="align-middle">Họ tên</th>
+                                    <th class="align-middle">Email</th>
+                                    <th class="align-middle">Số điện thoại</th>
+                                    <th class="align-middle">Ngày sinh</th>
+                                    <th class="align-middle">Trạng thái</th>
+                                    <th class="align-middle">Hành động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let customer of materialData">
+                                    <td>{{ customer.id }}</td>
+                                    <td>{{ customer.fullname }}</td>
+                                    <td>{{ customer.email }}</td>
+                                    <td>{{ customer.phone }}</td>
+                                    <td>{{ customer.birthDate | date : "dd/MM/yyyy" }}</td>
+                                    <td>
+                                        <span class="badge"
+                                            [ngClass]="customer.status === 1 ? 'bg-success' : 'bg-danger'">
+                                            {{ customer.status === 1 ? 'Hoạt động' : 'Không hoạt động' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-3">
+                                            <a href="javascript:void(0);" class="text-success"
+                                                (click)="editOsType(customer)">
+                                                <i class="mdi mdi-pencil font-size-18"></i>
+                                            </a>
+                                            <a href="javascript:void(0);" class="text-danger"
+                                                (click)="deleteOsType(customer.id)">
+                                                <i class="mdi mdi-delete font-size-18"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row justify-content-md-between align-items-md-center gy-2">
+                        <div class="col col-sm-6">
+                            <div class="dataTables_info mb-2" id="tickets-table_info" role="status" aria-live="polite">
+                                Hiển thị {{ (currentPage - 1) * itemsPerPage + 1 }} đến {{ currentPage * itemsPerPage >
+                                totalItems ? totalItems : currentPage * itemsPerPage }} của {{ totalItems }} kết quả
+                            </div>
+                        </div>
+                        <div class="col col-sm-6">
+                            <div class="dataTables_paginate paging_simple_numbers mb-2">
+                                <ngb-pagination [(page)]="currentPage" [pageSize]="itemsPerPage"
+                                    [collectionSize]="totalItems" (pageChange)="onPageChange($event)"
+                                    class="pagination pagination-rounded justify-content-end mb-2">
+                                </ngb-pagination>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit Customer Modal -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="myModalLabel">{{ customer.id ? 'Sửa' : 'Thêm' }} khách hàng</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+    </div>
+    <div class="modal-body">
+        <form (ngSubmit)="saveOsType()" [formGroup]="formData">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="fullname" class="form-label">Họ tên <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="fullname" placeholder="Nhập họ tên"
+                            formControlName="fullname"
+                            [ngClass]="{ 'is-invalid': submitted && form.fullname.errors }" />
+                        <div *ngIf="submitted && form.fullname.errors" class="invalid-feedback">
+                            <div *ngIf="form.fullname.errors.required">Họ tên là bắt buộc</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+                        <input type="email" class="form-control" id="email" placeholder="Nhập email"
+                            formControlName="email" [ngClass]="{ 'is-invalid': submitted && form.email.errors }" />
+                        <div *ngIf="submitted && form.email.errors" class="invalid-feedback">
+                            <div *ngIf="form.email.errors.required">Email là bắt buộc</div>
+                            <div *ngIf="form.email.errors.email">Email không hợp lệ</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Số điện thoại</label>
+                        <input type="text" class="form-control" id="phone" placeholder="Nhập số điện thoại"
+                            formControlName="phone" [ngClass]="{ 'is-invalid': submitted && form.phone.errors }" />
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="birthDate" class="form-label">Ngày sinh</label>
+                        <input type="date" class="form-control" id="birthDate" formControlName="birthDate" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Trạng thái</label>
+                        <ng-select [items]="getDataAddress" bindValue="id" bindLabel="name" formControlName="status">
+                        </ng-select>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modal.dismiss('cancel')">Đóng</button>
+        <button type="button" class="btn btn-primary" (click)="saveOsType()" [disabled]="formData.invalid">
+            {{ customer.id ? 'Cập nhật' : 'Thêm mới' }}
+        </button>
+    </div>
+</ng-template>

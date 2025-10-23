@@ -4,6 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxLoadingModule } from 'ngx-loading';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { MatTableModule } from '@angular/material/table';
 
 import { PagesRoutingModule } from './pages-routing.module';
 import { UIModule } from '../shared/ui/ui.module';
@@ -62,6 +65,9 @@ import { ExchangeComponent } from "./exchange/exchange.component";
         NgbModule,
         NgSelectModule,
         NgxLoadingModule,
+        Ng2SearchPipeModule,
+        CKEditorModule,
+        MatTableModule,
         UIModule,
         PagesRoutingModule
     ],
