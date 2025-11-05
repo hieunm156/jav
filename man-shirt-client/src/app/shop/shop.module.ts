@@ -39,8 +39,10 @@ import { FormComponent } from "./collection/widgets/form/form.component";
 import { CollarComponent } from "./collection/widgets/collar/collar.component";
 import { SleeveComponent } from "./collection/widgets/sleeve/sleeve.component";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { ShopComponent } from "./shop.component";
 @NgModule({
   declarations: [
+    ShopComponent,
     ProductNoSidebarComponent,
     ServicesComponent,
     CountdownComponent,
