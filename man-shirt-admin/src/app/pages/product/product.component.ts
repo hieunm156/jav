@@ -1371,7 +1371,7 @@ export class ProductComponent implements OnInit {
   imagesByColor: { [color: number]: any[] } = {};
   onFileSelected(event: any, color: any) {
     this.loading = true;
-    const files: File[] = event.target.files;
+    const files: FileList = event.target.files;
     this.uploadService.uploadImageByColor(files).subscribe({
       next: (res) => {
         for (const file of res) {

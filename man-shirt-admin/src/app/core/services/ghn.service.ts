@@ -8,19 +8,19 @@ import { environment } from 'src/environments/environment';
 })
 export class GhnService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getProvince(): Observable<any> {
-    return this.http.get<any>(`http://103.162.20.122:8080/ghn/api/get-province`);
+    return this.http.get<any>(`http://localhost:8080/ghn/api/get-province`);
 
   }
   getDistrict(provinceId: number): Observable<any> {
-    return this.http.get<any>(`http://103.162.20.122:8080/ghn/api/get-district?provinceId=` + provinceId);
+    return this.http.get<any>(`http://localhost:8080/ghn/api/get-district?provinceId=` + provinceId);
   }
   getWard(districtId: number): Observable<any> {
-    return this.http.get<any>(`http://103.162.20.122:8080/ghn/api/get-ward?wardId=` + districtId);
+    return this.http.get<any>(`http://localhost:8080/ghn/api/get-ward?wardId=` + districtId);
   }
-  getServiceFee(toDistrict : number, toWard : number ) : Observable<any>{
-    return this.http.get<any>(`http://103.162.20.122:8080/ghn/api/get-service-fee?toDistrict=` + toDistrict + `&toWard=`+ toWard);
+  getServiceFee(toDistrict: number, toWard: number): Observable<any> {
+    return this.http.get<any>(`http://localhost:8080/ghn/api/get-service-fee?toDistrict=` + toDistrict + `&toWard=` + toWard);
   }
 }

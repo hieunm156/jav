@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   defaultauth: "fackbackend",
   // apiUrl: "https://api.newmenstore.com/api",
-  apiUrl: "http://103.162.20.122:8080/api",
+  apiUrl: "http://localhost:8080/api",
   firebaseConfig: {
     apiKey: "",
     authDomain: "",

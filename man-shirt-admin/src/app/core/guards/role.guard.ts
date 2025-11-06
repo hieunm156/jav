@@ -15,19 +15,19 @@ export class RoleGuard implements CanActivate {
   ) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    // this.authenticationService.getUser().subscribe({
-    //   next: (res) => {
-    //     const roles = route.data;
-    //     if (roles && !res[0].roles?.includes(roles.roles)) {
-    //       this.router.navigate(["/"]);
-    //       return false;
-    //     }
-    //     return true;
-    //   },
-    //   error: (err) => {
-    //     return false;
-    //   },
-    // });
+    this.authenticationService.getUser().subscribe({
+      next: (res) => {
+        const roles = route.data;
+        if (roles && !res[0].roles?.includes(roles.roles)) {
+          this.router.navigate(["/"]);
+          return false;
+        }
+        return true;
+      },
+      error: (err) => {
+        return false;
+      },
+    });
 
     // not logged in so redirect to login page with the return url
     // this.router.navigate(["account/login"], {

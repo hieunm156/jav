@@ -8,12 +8,17 @@ import { HeadersUtil } from "../util/headers.util";
   providedIn: "root",
 })
 export class UploadService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  uploadImageByColor(imageFiles: File[]): Observable<any> {
+  uploadImageByColor(imageFiles: FileList | File[]): Observable<any> {
     const headers: HttpHeaders = HeadersUtil.getHeadersAuthSendingFile();
     const formData = new FormData();
-    imageFiles.forEach((file) => {
+    console.log("imageFiles", imageFiles);
+
+    // Convert FileList to Array if needed
+    const filesArray = imageFiles instanceof FileList ? Array.from(imageFiles) : imageFiles;
+
+    filesArray.forEach((file) => {
       formData.append("files", file);
     });
     return this.http.post<any>(

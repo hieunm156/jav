@@ -64,7 +64,7 @@ export const MENU: MenuItem[] = [
     id: 10,
     label: "MENUITEMS.CATEGORYS.TEXT",
     icon: "bx-cube",
-    link: "/categori",
+    link: "/categorys",
   },
   {
     id: 25,
